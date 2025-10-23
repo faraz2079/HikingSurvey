@@ -10,6 +10,7 @@ import Foundation
 struct Response: Identifiable {
     var id = UUID()
     var text: String
+    var score: Double
     
     static let sampleResponses: [String] = [
         "The outdoors is my happy place, so give me a trail and some boots and I feel great!",

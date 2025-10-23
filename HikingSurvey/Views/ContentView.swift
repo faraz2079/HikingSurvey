@@ -10,6 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     @State var responses: [Response] = []
+    var scorer = Scorer()
+    
+    func saveResponse(text: String) {
+        let score = scorer.score(text)
+        let response = Response(text: text, score: score)
+        responses.insert(response, at: 0) // newElement, at
+    }
     
     var body: some View {
         VStack {
@@ -19,16 +26,17 @@ struct ContentView: View {
                 .padding(.top, 24)
             ScrollView {
                 ForEach(responses) { response in
-                    Text(response.text)
+                    ResponseView(response: response)
                 }
             }
         }
         .onAppear {
             for response in Response.sampleResponses {
-                responses.insert(Response(text: response), at: 0)
+                saveResponse(text: response)
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .background(Color(white: 0.94))
     }
 }
 
