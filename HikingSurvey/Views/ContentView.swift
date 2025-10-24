@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @FocusState private var textFieldIsFocused: Bool
     @State var responses: [Response] = []
+    @State private var responseText = ""
     var scorer = Scorer()
     
     func saveResponse(text: String) {
@@ -29,11 +31,22 @@ struct ContentView: View {
                     ResponseView(response: response)
                 }
             }
+            TextField("What do you think about hiking", text: $responseText)
+                .textFieldStyle(.roundedBorder)
+                .lineLimit(5)
+            Button("Done") {
+                guard !responseText.isEmpty else { return }
+                saveResponse(text: responseText)
+                responseText = ""
+                textFieldIsFocused = false
+            }
+            .padding(.horizontal, 4)
         }
         .onAppear {
             for response in Response.sampleResponses {
                 saveResponse(text: response)
             }
+                
         }
         .padding(.horizontal)
         .background(Color(white: 0.94))

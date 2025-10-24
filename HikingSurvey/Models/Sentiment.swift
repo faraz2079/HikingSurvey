@@ -8,9 +8,10 @@ import Foundation
 import SwiftUI
 
 enum Sentiment {
+    
     case positive
-    case moderate
     case negative
+    case moderate
     
     init(_ score: Double) {
         if score > 0.2 {

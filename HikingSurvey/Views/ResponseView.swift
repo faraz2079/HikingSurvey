@@ -19,7 +19,7 @@ struct ResponseView: View {
             Image(systemName: response.sentiment.icon)
                 .frame(width: 30, height: 30)
                 .foregroundStyle(.white)
-                .background(RoundedRectangle(cornerRadius: 8)
+                .background(RoundedRectangle(cornerRadius: 20)
                     .fill(response.sentiment.sentimentColor)
                 )
         }
