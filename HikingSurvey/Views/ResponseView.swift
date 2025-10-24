@@ -12,14 +12,21 @@ struct ResponseView: View {
     var response: Response
     
     var body: some View {
-        Text(response.text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(RoundedRectangle(cornerRadius: 8)
-                .fill(.white)
-            )
-        Text(response.score
-             ,format: .number.rounded(increment: 0.1)
+        HStack {
+            Text(response.text)
+                .padding(.trailing)
+            Spacer()
+            Image(systemName: response.sentiment.icon)
+                .frame(width: 30, height: 30)
+                .foregroundStyle(.white)
+                .background(RoundedRectangle(cornerRadius: 8)
+                    .fill(response.sentiment.sentimentColor)
+                )
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(RoundedRectangle(cornerRadius: 8)
+            .fill(.white)
         )
     }
 }
