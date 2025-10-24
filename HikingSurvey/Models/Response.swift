@@ -7,7 +7,7 @@
 import Foundation
 
 
-struct Response: Identifiable {
+struct Response: Identifiable, Codable {
     var id = UUID()
     var text: String
     var score: Double
