@@ -11,7 +11,7 @@ final class ResponseStore {
     private var cache: [Response] = []
     private let io = DispatchQueue(label: "ResponseStore.IO")
     
-    private var url: URL {
+    public var url: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
     }
     

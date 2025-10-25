@@ -13,11 +13,13 @@ struct ContentView: View {
     @State var responses: [Response] = []
     @State private var responseText = ""
     var scorer = Scorer()
+    private let store = ResponseStore()
     
     func saveResponse(text: String) {
         let score = scorer.score(text)
         let response = Response(text: text, score: score)
         responses.insert(response, at: 0) // newElement, at
+        store.save(responses)
     }
     
     var body: some View {
@@ -45,10 +47,19 @@ struct ContentView: View {
             .padding(.horizontal, 4)
         }
         .onAppear {
-            for response in Response.sampleResponses {
-                saveResponse(text: response)
+            
+            let loaded = store.load()
+            if loaded.isEmpty {
+                var seeded: [Response] = []
+                for s in Response.sampleResponses {
+                    let score = scorer.score(s)
+                    seeded.insert(Response(text: s, score: score), at: 0)
+                }
+                responses = seeded
+                store.save(seeded)
+            } else {
+                responses = loaded
             }
-                
         }
         .padding(.horizontal)
         .background(Color(white: 0.94))
