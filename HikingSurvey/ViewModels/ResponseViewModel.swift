@@ -10,10 +10,11 @@ class ResponseViewModel: ObservableObject {
     private let scorer: SentimentScoring
     private let store: ResponsePersisting
     
-    init(responses: [Response], scorer: SentimentScoring, store: ResponsePersisting) {
-        self.responses = responses
+    init(scorer: SentimentScoring,
+         store: ResponsePersisting) {
         self.scorer = scorer
         self.store = store
+        self.loadOrSeed()
     }
     
     func add(text: String) {

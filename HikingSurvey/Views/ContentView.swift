@@ -9,18 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @FocusState private var textFieldIsFocused: Bool
-    @State var responses: [Response] = []
-    @State private var responseText = ""
-    var scorer = Scorer()
-    private let store = ResponseStore()
+    @StateObject private var vm = ResponseViewModel(scorer: NLSentimentScorer(), store: JSONResponseStore())
     
-    func saveResponse(text: String) {
-        let score = scorer.score(text)
-        let response = Response(text: text, score: score)
-        responses.insert(response, at: 0) // newElement, at
-        store.save(responses)
-    }
+    @FocusState private var textFieldIsFocused: Bool
+    @State private var responseText = ""
     
     var body: some View {
         VStack {
@@ -29,9 +21,9 @@ struct ContentView: View {
                 .font(.title)
                 .padding(.top, 24)
             ScrollView {
-                ChartView(responses: responses)
+                ChartView(responses: vm.responses)
                 
-                ForEach(responses) { response in
+                ForEach(vm.responses) { response in
                     ResponseView(response: response)
                 }
             }
@@ -41,26 +33,11 @@ struct ContentView: View {
                     .lineLimit(5)
                 Button("Done") {
                     guard !responseText.isEmpty else { return }
-                    saveResponse(text: responseText)
+                    vm.add(text: responseText)
                     responseText = ""
                     textFieldIsFocused = false
                 }
                 .padding(.horizontal, 4)
-            }
-        }
-        .onAppear {
-            
-            let loaded = store.load()
-            if loaded.isEmpty {
-                var seeded: [Response] = []
-                for s in Response.sampleResponses {
-                    let score = scorer.score(s)
-                    seeded.insert(Response(text: s, score: score), at: 0)
-                }
-                responses = seeded
-                store.save(seeded)
-            } else {
-                responses = loaded
             }
         }
         .padding(.horizontal)
