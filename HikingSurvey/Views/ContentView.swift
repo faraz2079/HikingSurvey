@@ -35,16 +35,18 @@ struct ContentView: View {
                     ResponseView(response: response)
                 }
             }
-            TextField("What do you think about hiking", text: $responseText)
-                .textFieldStyle(.roundedBorder)
-                .lineLimit(5)
-            Button("Done") {
-                guard !responseText.isEmpty else { return }
-                saveResponse(text: responseText)
-                responseText = ""
-                textFieldIsFocused = false
+            HStack {
+                TextField("What do you think about hiking", text: $responseText)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(5)
+                Button("Done") {
+                    guard !responseText.isEmpty else { return }
+                    saveResponse(text: responseText)
+                    responseText = ""
+                    textFieldIsFocused = false
+                }
+                .padding(.horizontal, 4)
             }
-            .padding(.horizontal, 4)
         }
         .onAppear {
             

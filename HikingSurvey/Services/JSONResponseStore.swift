@@ -1,18 +1,12 @@
-//
-//  ResponseStore.swift
-//  HikingSurvey
-//
-//  Created by Faraz on 10/24/25.
-//
 import Foundation
 
-final class ResponseStore {
+final class JSONResponseStore: ResponsePersisting {
     private let fileName = "ResponseStore.json"
-    private var cache: [Response] = []
     private let io = DispatchQueue(label: "ResponseStore.IO")
     
-    public var url: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
+    var url: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    .appendingPathComponent(fileName)
     }
     
     func load() -> [Response] {
@@ -36,4 +30,6 @@ final class ResponseStore {
             }
         }
     }
+    
+    
 }

@@ -1,14 +1,7 @@
-//
-//  Scorer.swift
-//  HikingSurvey
-//
-//  Created by Faraz on 10/23/25.
-//
-
 import Foundation
 import NaturalLanguage
 
-class Scorer {
+final class NLSentimentScorer: SentimentScoring {
     let tagger = NLTagger(tagSchemes: [.sentimentScore])
     
     func score(_ text: String) -> Double {
